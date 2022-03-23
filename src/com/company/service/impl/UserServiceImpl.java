@@ -5,6 +5,7 @@ import com.company.exceptions.NoSuchIdException;
 import com.company.model.User;
 import com.company.service.UserService;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -17,7 +18,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findById(int id) {
+    public User findById(int id) {
             if (checkTrueOrFalse(id)) {
                 try {
                     throw new NoSuchIdException("There is no such id");
@@ -25,7 +26,12 @@ public class UserServiceImpl implements UserService {
                     System.out.println(e.getMessage());
                 }
             }
-            return userDao.getUsers().stream().filter(x -> x.getId() == id).toList();
+            User newUser = null;
+            for(User i: userDao.getUsers()) {
+                if(i.getId() == id)
+                    newUser = i;
+            }
+            return newUser;
     }
 
     @Override
