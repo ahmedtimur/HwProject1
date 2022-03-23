@@ -17,15 +17,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void findById(int id) {
-        try {
+    public List<User> findById(int id) {
             if (checkTrueOrFalse(id)) {
-                throw new NoSuchIdException("There is no such id");
+                try {
+                    throw new NoSuchIdException("There is no such id");
+                }catch (NoSuchIdException e) {
+                    System.out.println(e.getMessage());
+                }
             }
-            userDao.getUsers().stream().filter(user -> user.getId() == id).forEach(System.out::println);
-        } catch (NoSuchIdException e) {
-            System.err.println(e.getMessage());
-        }
+            return userDao.getUsers().stream().filter(x -> x.getId() == id).toList();
     }
 
     @Override
@@ -39,6 +39,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean checkTrueOrFalse(int id) {
-        return userDao.getUsers().stream().filter(user -> user.getId() == id).isParallel();
+        return userDao.getUsers().stream().filter(user -> user.getId() == id).findFirst().isEmpty();
     }
 }

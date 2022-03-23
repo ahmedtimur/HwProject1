@@ -25,7 +25,7 @@ public class Main {
         UserService userService = new UserServiceImpl();
         userService.addUser(newList);
 
-        userService.findById(1);
+        System.out.println(userService.findById(1));
         System.out.println();
 
         userService.getAllUsers().forEach(System.out::println);
