@@ -9,8 +9,6 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    UserDao userDao = new UserDao();
-
     @Override
     public void addUser(User user) {
         UserDao.users.add(user);
