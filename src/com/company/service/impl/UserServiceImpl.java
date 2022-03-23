@@ -13,16 +13,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(User user) {
-        userDao.addUser(user);
+        UserDao.users.add(user);
     }
 
     @Override
     public void findById(int id) {
         try {
-            if (userDao.checkTrueOrFalse(id)) {
+            if (checkTrueOrFalse(id)) {
                 throw new NoSuchIdException("There is no such id");
             }
-            userDao.findById(id);
+            UserDao.users.stream().filter(user -> user.getId() == id).forEach(System.out::println);
         } catch (NoSuchIdException e) {
             System.err.println(e.getMessage());
         }
@@ -30,11 +30,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeById(int id) {
-        userDao.removeById(id);
+        UserDao.users.removeIf(user -> user.getId() == id);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+        return UserDao.users.stream().toList();
+    }
+
+    public boolean checkTrueOrFalse(int id) {
+        return UserDao.users.stream().filter(user -> user.getId() == id).isParallel();
     }
 }
