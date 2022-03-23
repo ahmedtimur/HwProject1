@@ -9,9 +9,11 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
+    private UserDao userDao = new UserDao();
+
     @Override
-    public void addUser(User user) {
-        UserDao.users.add(user);
+    public void addUser(List<User> user) {
+        userDao.setUsers(user);
     }
 
     @Override
@@ -20,7 +22,7 @@ public class UserServiceImpl implements UserService {
             if (checkTrueOrFalse(id)) {
                 throw new NoSuchIdException("There is no such id");
             }
-            UserDao.users.stream().filter(user -> user.getId() == id).forEach(System.out::println);
+            userDao.getUsers().stream().filter(user -> user.getId() == id).forEach(System.out::println);
         } catch (NoSuchIdException e) {
             System.err.println(e.getMessage());
         }
@@ -28,15 +30,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeById(int id) {
-        UserDao.users.removeIf(user -> user.getId() == id);
+        userDao.getUsers().removeIf(user -> user.getId() == id);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return UserDao.users.stream().toList();
+        return userDao.getUsers().stream().toList();
     }
 
     public boolean checkTrueOrFalse(int id) {
-        return UserDao.users.stream().filter(user -> user.getId() == id).isParallel();
+        return userDao.getUsers().stream().filter(user -> user.getId() == id).isParallel();
     }
 }

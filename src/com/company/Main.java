@@ -19,11 +19,11 @@ public class Main {
         User person2 = new User("Bob", 2, 23, MALE);
         User person3 = new User("Jessica", 3, 15, FEMALE);
 
-        UserService userService = new UserServiceImpl();
+        List<User> newList = new ArrayList<>();
+        newList.add(person1); newList.add(person2); newList.add(person3);
 
-        userService.addUser(person1);
-        userService.addUser(person2);
-        userService.addUser(person3);
+        UserService userService = new UserServiceImpl();
+        userService.addUser(newList);
 
         userService.findById(1);
         System.out.println();
